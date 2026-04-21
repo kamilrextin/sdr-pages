@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTM Measurement Framework — PlanetScale</title>
+    <meta name="description" content="Board-format scaffolding for pricing Postgres self-serve, Vitess enterprise, and Metal attach motions separately. Blended vs. segmented payback per line item.">
+    <meta name="robots" content="noindex,nofollow">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-MM5BTNS');</script>
+
+    <!-- HubSpot Tracking -->
+    <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/44888286.js"></script>
+
+    <style>
+        :root {
+            --accent: #DFFE68;
+            --accent-dark: #C8E85C;
+            --black: #1a1a1a;
+            --gray: #4a4a4a;
+            --muted: #6b6b6b;
+            --light-gray: #f5f5f5;
+            --rule: #e5e5e5;
+            --orange: #F59E0B;
+            --blue: #3B82F6;
+            --green: #10B981;
+            --red: #EF4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+            background: white;
+            color: var(--black);
+            line-height: 1.55;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Minimal header — tiny 42 logo, no nav */
+        .mini-header {
+            border-bottom: 2px solid var(--black);
+            background: white;
+            padding: 10px 1.5rem;
+        }
+        .mini-header-inner {
+            max-width: 960px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+        .mini-header .logo img { height: 20px; width: auto; display: block; }
+        .mini-header .meta {
+            font-size: 0.7rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 600;
+        }
+
+        .doc {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem 4rem;
+        }
+
+        /* Document header */
+        .doc-header {
+            border-bottom: 2px solid var(--black);
+            padding-bottom: 1.25rem;
+            margin-bottom: 2rem;
+        }
+        .doc-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 1rem;
+            flex-wrap: wrap;
+            font-size: 0.75rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+        .doc-meta .illustrative {
+            background: var(--accent);
+            color: var(--black);
+            padding: 0.2rem 0.55rem;
+            border: 1.5px solid var(--black);
+            border-radius: 4px;
+            letter-spacing: 0.05em;
+        }
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            margin-bottom: 0.4rem;
+        }
+        .doc-sub {
+            font-size: 0.95rem;
+            color: var(--gray);
+            max-width: 720px;
+        }
+
+        /* Section */
+        section { margin-bottom: 2.25rem; }
+        h2 {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--black);
+            border-bottom: 1px solid var(--black);
+            padding-bottom: 0.4rem;
+            margin-bottom: 1rem;
+        }
+        h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 0.35rem;
+            color: var(--black);
+        }
+        p { font-size: 0.9rem; color: var(--gray); margin-bottom: 0.6rem; }
+        p strong { color: var(--black); font-weight: 700; }
+
+        /* Framing block */
+        .frame {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+        .frame-card {
+            border: 1.5px solid var(--black);
+            border-radius: 6px;
+            padding: 0.85rem 0.9rem;
+            background: white;
+        }
+        .frame-card .label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 700;
+            color: var(--muted);
+            margin-bottom: 0.35rem;
+        }
+        .frame-card .val {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--black);
+            line-height: 1.35;
+        }
+        .frame-card .val .thin {
+            font-weight: 400;
+            color: var(--gray);
+        }
+
+        /* Table */
+        .tbl-wrap {
+            border: 2px solid var(--black);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.82rem;
+        }
+        thead th {
+            background: var(--black);
+            color: white;
+            font-weight: 700;
+            text-align: left;
+            padding: 0.65rem 0.75rem;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            border-right: 1px solid #333;
+        }
+        thead th:last-child { border-right: none; }
+        tbody td {
+            padding: 0.7rem 0.75rem;
+            border-top: 1px solid var(--rule);
+            border-right: 1px solid var(--rule);
+            vertical-align: top;
+            color: var(--gray);
+        }
+        tbody td:last-child { border-right: none; }
+        tbody tr:first-child td { border-top: none; }
+        tbody td.label-col {
+            color: var(--black);
+            font-weight: 700;
+            width: 22%;
+            background: var(--light-gray);
+        }
+        tbody td.num {
+            font-variant-numeric: tabular-nums;
+            font-feature-settings: "tnum";
+        }
+        tbody td .sub {
+            display: block;
+            font-size: 0.72rem;
+            color: var(--muted);
+            margin-top: 0.2rem;
+        }
+        .delta-better { color: var(--green); font-weight: 700; }
+        .delta-worse  { color: var(--red); font-weight: 700; }
+        .delta-neutral { color: var(--muted); font-weight: 700; }
+
+        /* Line-item detail grid */
+        .li {
+            border: 1.5px solid var(--black);
+            border-radius: 6px;
+            padding: 1rem 1.1rem;
+            margin-bottom: 0.9rem;
+            background: white;
+        }
+        .li-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .li-title {
+            font-size: 1rem;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+        }
+        .li-tag {
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 0.18rem 0.5rem;
+            border-radius: 3px;
+            border: 1.5px solid var(--black);
+            color: var(--black);
+        }
+        .li-tag.self-serve { background: #DBEAFE; }
+        .li-tag.enterprise { background: #FEF3C7; }
+        .li-tag.attach { background: #D1FAE5; }
+
+        .li-funnel {
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-size: 0.78rem;
+            background: var(--light-gray);
+            border-left: 3px solid var(--black);
+            padding: 0.5rem 0.7rem;
+            margin: 0.5rem 0 0.75rem;
+            color: var(--black);
+            word-break: break-word;
+        }
+
+        .li-math {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.6rem;
+            margin-top: 0.35rem;
+        }
+        .math-box {
+            border: 1px solid var(--black);
+            border-radius: 4px;
+            padding: 0.55rem 0.7rem;
+            background: var(--light-gray);
+        }
+        .math-box .mlabel {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 700;
+            color: var(--muted);
+            margin-bottom: 0.3rem;
+        }
+        .math-box .mformula {
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-size: 0.78rem;
+            color: var(--black);
+            line-height: 1.45;
+        }
+        .math-box.seg {
+            background: #F7FFE0;
+            border-color: var(--black);
+        }
+
+        /* Notes */
+        .notes ol {
+            padding-left: 1.25rem;
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+        .notes ol li {
+            margin-bottom: 0.45rem;
+        }
+        .notes ol li strong { color: var(--black); }
+
+        /* Questions */
+        .qs {
+            border: 1.5px solid var(--black);
+            border-radius: 6px;
+            padding: 1rem 1.1rem;
+            background: var(--light-gray);
+        }
+        .qs ul {
+            list-style: none;
+            padding: 0;
+        }
+        .qs li {
+            font-size: 0.88rem;
+            color: var(--black);
+            padding: 0.45rem 0;
+            border-bottom: 1px dashed #ccc;
+        }
+        .qs li:last-child { border-bottom: none; }
+        .qs li::before {
+            content: "Q. ";
+            font-weight: 800;
+            color: var(--black);
+            margin-right: 0.2rem;
+        }
+
+        /* Footer */
+        .doc-footer {
+            border-top: 1.5px solid var(--black);
+            margin-top: 2.5rem;
+            padding-top: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+            font-size: 0.72rem;
+            color: var(--muted);
+        }
+        .doc-footer strong { color: var(--black); }
+
+        /* Print-friendliness */
+        @media print {
+            body { background: white; }
+            .mini-header { display: none; }
+            .doc { padding: 0.5in; max-width: 100%; }
+            .doc-header { break-inside: avoid; }
+            .li, section { break-inside: avoid; }
+        }
+
+        @media (max-width: 720px) {
+            .frame { grid-template-columns: 1fr; }
+            .li-math { grid-template-columns: 1fr; }
+            h1 { font-size: 1.4rem; }
+            table { font-size: 0.78rem; }
+            tbody td.label-col { width: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MM5BTNS" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+    <header class="mini-header">
+        <div class="mini-header-inner">
+            <a class="logo" href="https://42agency.com" target="_blank" rel="noopener">
+                <img src="https://intel.42agency.com/42-logo.png" alt="42 Agency">
+            </a>
+            <span class="meta">GTM Measurement Framework &middot; v0.1 Draft</span>
+        </div>
+    </header>
+
+    <article class="doc">
+
+        <!-- Header -->
+        <div class="doc-header">
+            <div class="doc-meta">
+                <span>PlanetScale &middot; GTM Measurement Framework &middot; v0.1 Draft</span>
+                <span class="illustrative">Illustrative numbers &mdash; replace with actuals</span>
+            </div>
+            <h1>Pricing three motions separately at the board level</h1>
+            <p class="doc-sub">
+                Postgres self-serve, Vitess enterprise, and Metal attach do not share a funnel,
+                a payback curve, or a margin profile. A blended CAC view under-prices Vitess,
+                over-prices Postgres, and hides Metal entirely. This document is a math skeleton,
+                not a recommendation.
+            </p>
+        </div>
+
+        <!-- Framing -->
+        <section>
+            <h2>The three motions</h2>
+            <div class="frame">
+                <div class="frame-card">
+                    <div class="label">1 &middot; Postgres self-serve</div>
+                    <div class="val">
+                        Cost per net-new signup
+                        <span class="thin"><br>$5 starter &rarr; $50 Metal &rarr; expansion</span>
+                    </div>
+                </div>
+                <div class="frame-card">
+                    <div class="label">2 &middot; Vitess enterprise</div>
+                    <div class="val">
+                        Cost per Stage-3 opportunity
+                        <span class="thin"><br>Multi-stakeholder, AE-led, ABM-driven</span>
+                    </div>
+                </div>
+                <div class="frame-card">
+                    <div class="label">3 &middot; Metal attach</div>
+                    <div class="val">
+                        Cost per Metal conversion
+                        <span class="thin"><br>Expansion motion on installed Postgres base</span>
+                    </div>
+                </div>
+            </div>
+            <p style="margin-top: 0.75rem;">
+                Each line item is measured two ways: <strong>blended</strong> (all S&amp;M dollars
+                across all motions, divided by that motion's output) and <strong>segmented</strong>
+                (only that motion's directly-attributed S&amp;M spend, divided by that motion's
+                output). The delta between the two is where the pricing error lives.
+            </p>
+        </section>
+
+        <!-- Summary table -->
+        <section>
+            <h2>Board-format summary &mdash; blended vs. segmented</h2>
+            <div class="tbl-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 22%;">Line item</th>
+                            <th style="width: 22%;">Unit</th>
+                            <th style="width: 18%;">Blended</th>
+                            <th style="width: 18%;">Segmented</th>
+                            <th style="width: 20%;">Delta</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="label-col">1. Postgres self-serve</td>
+                            <td>
+                                Cost / net-new signup
+                                <span class="sub">Payback = months to recover CAC at motion GM</span>
+                            </td>
+                            <td class="num">
+                                $XXX / signup
+                                <span class="sub">Payback: 8.4 mo</span>
+                            </td>
+                            <td class="num">
+                                $YY / signup (organic)<br>
+                                $ZZZ / signup (paid)
+                                <span class="sub">Payback: 2.1 &middot; 14.6 mo</span>
+                            </td>
+                            <td class="num">
+                                <span class="delta-better">Organic under-credited</span>
+                                <span class="sub">Paid over-credited at blended rate</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label-col">2. Vitess enterprise</td>
+                            <td>
+                                Cost / Stage-3 opp
+                                <span class="sub">Payback = months to recover CAC at enterprise GM on won ACV</span>
+                            </td>
+                            <td class="num">
+                                $XX,XXX / Stage-3
+                                <span class="sub">Payback: 16.0 mo</span>
+                            </td>
+                            <td class="num">
+                                $A,AAA mktg-sourced<br>
+                                $B,BBB outbound-sourced<br>
+                                $C,CCC partner-sourced
+                                <span class="sub">Payback: 9 &middot; 22 &middot; 6 mo</span>
+                            </td>
+                            <td class="num">
+                                <span class="delta-worse">Outbound mispriced</span>
+                                <span class="sub">Partner channel underfunded vs. payback</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label-col">3. Metal attach</td>
+                            <td>
+                                Cost / Metal conversion
+                                <span class="sub">Payback = months to recover attach cost at Metal GM uplift</span>
+                            </td>
+                            <td class="num">
+                                Hidden in #1
+                                <span class="sub">Currently zero standalone attribution</span>
+                            </td>
+                            <td class="num">
+                                $PP / conversion
+                                <span class="sub">Payback: 4.2 mo</span>
+                            </td>
+                            <td class="num">
+                                <span class="delta-neutral">Not visible today</span>
+                                <span class="sub">Requires CS/PM spend segregation</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Line item 1 -->
+        <section>
+            <h2>Line item 1 &middot; Postgres self-serve</h2>
+            <div class="li">
+                <div class="li-head">
+                    <div class="li-title">Cost per net-new Postgres signup</div>
+                    <span class="li-tag self-serve">Self-serve &middot; PLG</span>
+                </div>
+                <p>
+                    Low-friction $5 starter ladder to $50 Metal and expansion.
+                    Most of the motion runs through content, docs, and paid &mdash; not AEs.
+                    Margin inside the funnel is thin until activation, so payback is almost entirely
+                    an acquisition-channel question, not a close-rate question.
+                </p>
+                <div class="li-funnel">
+                    Paid / content / MKT1 / podcast &rarr; signup &rarr; activation (first query) &rarr; expansion event ($5 &rarr; $50 &rarr; Metal)
+                </div>
+                <div class="li-math">
+                    <div class="math-box">
+                        <div class="mlabel">Blended payback</div>
+                        <div class="mformula">
+                            (Total S&amp;M<sub>all motions</sub>) / (net-new signups)<br>
+                            &divide; (ARPU<sub>signup</sub> &times; GM<sub>self-serve</sub>)<br>
+                            = <strong>~8.4 mo</strong> &nbsp;<span style="color:var(--muted);">illustrative</span>
+                        </div>
+                    </div>
+                    <div class="math-box seg">
+                        <div class="mlabel">Segmented payback (per channel)</div>
+                        <div class="mformula">
+                            CAC<sub>channel</sub> = spend<sub>channel</sub> / signups<sub>channel</sub><br>
+                            Payback<sub>channel</sub> = CAC / (ARPU &times; GM)<br>
+                            Organic: <strong>2.1 mo</strong> &middot; Paid: <strong>14.6 mo</strong><br>
+                            MKT1: <strong>5.8 mo</strong> &middot; Podcast: <strong>3.4 mo</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Line item 2 -->
+        <section>
+            <h2>Line item 2 &middot; Vitess enterprise</h2>
+            <div class="li">
+                <div class="li-head">
+                    <div class="li-title">Cost per Vitess opportunity at Stage 3 (commit)</div>
+                    <span class="li-tag enterprise">Enterprise &middot; Sales-led</span>
+                </div>
+                <p>
+                    Multi-stakeholder, long cycle, high-ACV. CAC at Stage 3 (not signup, not SQL)
+                    is the earliest point where the opportunity is real enough to price.
+                    Blended lumps demand-gen, ABM, AE outbound, and partner-assist into one number
+                    &mdash; which hides the channel with the best payback and the one burning cash.
+                </p>
+                <div class="li-funnel">
+                    Demand-side content + ABM + AE outbound + partner intros &rarr; SAL &rarr; SQL &rarr; Stage 3 commit
+                </div>
+                <div class="li-math">
+                    <div class="math-box">
+                        <div class="mlabel">Blended payback</div>
+                        <div class="mformula">
+                            (All S&amp;M &minus; self-serve-attributed spend) / Stage-3 opps<br>
+                            &divide; (Avg won ACV &times; win rate &times; GM<sub>ent</sub>)<br>
+                            = <strong>~16.0 mo</strong> &nbsp;<span style="color:var(--muted);">illustrative</span>
+                        </div>
+                    </div>
+                    <div class="math-box seg">
+                        <div class="mlabel">Segmented payback (per source)</div>
+                        <div class="mformula">
+                            Split by Stage-3 source: mktg / outbound / partner<br>
+                            CAC<sub>src</sub> = spend<sub>src</sub> / Stage-3<sub>src</sub><br>
+                            Mktg-sourced: <strong>9 mo</strong> &middot; Outbound: <strong>22 mo</strong><br>
+                            Partner-sourced: <strong>6 mo</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Line item 3 -->
+        <section>
+            <h2>Line item 3 &middot; Metal attach</h2>
+            <div class="li">
+                <div class="li-head">
+                    <div class="li-title">Cost per Metal attach on installed Postgres base</div>
+                    <span class="li-tag attach">Attach &middot; Expansion</span>
+                </div>
+                <p>
+                    Today the cost to convert an existing $5/$50 Postgres customer into Metal is buried
+                    inside Postgres signup math. That is wrong on two counts: the Metal decision is an
+                    expansion trigger (not an acquisition event) and the cost driver is product + CS,
+                    not paid acquisition. Pricing it separately creates a real unit on the board.
+                </p>
+                <div class="li-funnel">
+                    Installed Postgres customer &rarr; product-usage trigger / PQL &rarr; CS or PLG nudge &rarr; Metal conversion
+                </div>
+                <div class="li-math">
+                    <div class="math-box">
+                        <div class="mlabel">Blended payback (today)</div>
+                        <div class="mformula">
+                            Not isolated. Metal conversion cost is currently<br>
+                            absorbed into self-serve CAC &mdash; no standalone unit.<br>
+                            = <strong>hidden</strong>
+                        </div>
+                    </div>
+                    <div class="math-box seg">
+                        <div class="mlabel">Segmented payback (proposed)</div>
+                        <div class="mformula">
+                            Attach spend = (CS allocation + PM/PLG nudges)<br>
+                            CAC<sub>metal</sub> = attach spend / Metal conversions<br>
+                            Payback = CAC / (&Delta;ARPU &times; GM<sub>metal</sub>)<br>
+                            = <strong>4.2 mo</strong> &nbsp;<span style="color:var(--muted);">illustrative</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Where the ratios are soft -->
+        <section>
+            <h2>Where the ratios are soft &mdash; mark these up</h2>
+            <div class="notes">
+                <ol>
+                    <li>
+                        <strong>ARPU<sub>signup</sub> denominator.</strong> Blending $5 starter and $50 Metal
+                        into one ARPU at signup depresses payback artificially. Suggest modeling signup
+                        ARPU at the 90-day mark (post-activation), not day 0.
+                    </li>
+                    <li>
+                        <strong>Content / brand allocation.</strong> MKT1 newsletter and podcast-referral are
+                        demand-gen that touches all three motions. Currently they will get fully loaded into
+                        Postgres signup CAC. Recommend splitting on touch-weighted basis, not first-touch.
+                    </li>
+                    <li>
+                        <strong>Vitess GM at payback time.</strong> Using won-ACV GM assumes linear ramp.
+                        Real payback on Vitess should be discounted for ramp (month 1 ACV &lt; month 12 ACV).
+                        Flag for Eric: is Stage-3 the right commit point, or do we run payback off closed-won
+                        and accept longer feedback loops?
+                    </li>
+                    <li>
+                        <strong>Metal attach as acquisition vs. expansion.</strong> If we accept Metal is
+                        expansion, its CAC is a CS/PM cost, not a marketing cost. That changes who owns
+                        the payback number (Eric vs. product).
+                    </li>
+                    <li>
+                        <strong>Partner channel sample size.</strong> Partner-sourced Stage-3 count is low
+                        enough that the 6-mo payback number is noise. Two to three more quarters before
+                        this row is reliable.
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Open questions -->
+        <section>
+            <h2>Open questions for Eric</h2>
+            <div class="qs">
+                <ul>
+                    <li>Does the current attribution model tag opportunities by source at Stage 3, or only at closed-won?</li>
+                    <li>Are CS hours against installed Postgres customers tracked in a way that can be allocated to Metal conversions?</li>
+                    <li>What is the current win-rate spread between mktg-sourced and outbound-sourced Vitess? If it's meaningful, the payback split above is the wrong shape.</li>
+                    <li>Is there a way to measure podcast / MKT1 influence on Vitess Stage-3, or is it locked to self-serve signups in the current model?</li>
+                    <li>What is the right denominator for Metal attach payback &mdash; incremental ARPU only, or full Metal ACV?</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <div class="doc-footer">
+            <div><strong>Prepared as scaffolding.</strong> Mark it up, argue with the ratios.</div>
+            <div>Numbers illustrative &middot; v0.1</div>
+        </div>
+
+    </article>
+
+    <!-- Vercel Analytics -->
+    <script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

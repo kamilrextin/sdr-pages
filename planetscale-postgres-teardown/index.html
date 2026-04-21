@@ -7,6 +7,17 @@
     <meta name="description" content="A line-by-line read of how Neon, Supabase, and PlanetScale position Postgres on their homepages, pricing, docs, and category language. Pulled from live copy.">
     <meta name="robots" content="noindex,nofollow">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-MM5BTNS');</script>
+
+    <!-- HubSpot Tracking -->
+    <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/44888286.js"></script>
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
@@ -38,6 +49,22 @@
             align-items: center;
             gap: 16px;
             flex-wrap: wrap;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .header-left img.logo {
+            height: 22px;
+            width: auto;
+            display: block;
+        }
+        .header-divider {
+            width: 1px;
+            height: 18px;
+            background: #1a1a1a;
+            opacity: 0.3;
         }
         .header-label {
             font-size: 13px;
@@ -375,9 +402,17 @@
 </head>
 <body>
 
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MM5BTNS" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
 <header class="header">
     <div class="header-inner">
-        <span class="header-label">Postgres Positioning Teardown</span>
+        <div class="header-left">
+            <a href="https://42agency.com" target="_blank" rel="noopener">
+                <img src="/42-logo.png" alt="42 Agency" class="logo">
+            </a>
+            <span class="header-divider"></span>
+            <span class="header-label">Postgres Positioning Teardown</span>
+        </div>
         <span class="header-badge">Prepared for Sam Lambert</span>
     </div>
 </header>
@@ -635,10 +670,16 @@
 
 <footer class="footer">
     <div class="footer-inner">
-        <span>Postgres Positioning Teardown &middot; Prepared April 2026</span>
+        <span>Postgres Positioning Teardown &middot; Prepared April 2026 &middot; <a href="https://42agency.com" target="_blank" rel="noopener">42 Agency</a></span>
         <span>Observation only. No vendor affiliation.</span>
     </div>
 </footer>
+
+<!-- Vercel Analytics -->
+<script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
 
 </body>
 </html>
