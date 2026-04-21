@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon vs Supabase vs PlanetScale Postgres — Positioning Teardown</title>
+    <meta name="description" content="A line-by-line read of how Neon, Supabase, and PlanetScale position Postgres on their homepages, pricing, docs, and category language. Pulled from live copy.">
+    <meta name="robots" content="noindex,nofollow">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+            background: #ffffff;
+            color: #1a1a1a;
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Layout */
+        .wrap { max-width: 920px; margin: 0 auto; padding: 0 24px; }
+
+        /* Header */
+        .header {
+            border-bottom: 2px solid #1a1a1a;
+            background: #fff;
+            padding: 16px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .header-inner {
+            max-width: 920px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .header-label {
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+        }
+        .header-badge {
+            padding: 6px 12px;
+            background: #f5f5f5;
+            border: 2px solid #1a1a1a;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* Hero */
+        .hero {
+            background: #f5f5f5;
+            border-bottom: 2px solid #1a1a1a;
+            padding: 72px 24px 64px;
+        }
+        .hero-inner { max-width: 920px; margin: 0 auto; }
+        .eyebrow {
+            display: inline-block;
+            padding: 6px 14px;
+            background: #DFFE68;
+            border: 2px solid #1a1a1a;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 20px;
+            box-shadow: 3px 3px 0px 0px #1a1a1a;
+        }
+        .hero h1 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+        .hero p.lede {
+            font-size: 1.15rem;
+            color: #4a4a4a;
+            max-width: 780px;
+        }
+        @media (min-width: 768px) {
+            .hero h1 { font-size: 3.25rem; }
+            .hero p.lede { font-size: 1.25rem; }
+        }
+
+        /* TL;DR */
+        .tldr {
+            background: #fff;
+            border-bottom: 2px solid #1a1a1a;
+            padding: 48px 24px;
+        }
+        .tldr-inner { max-width: 920px; margin: 0 auto; }
+        .tldr-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        @media (min-width: 768px) {
+            .tldr-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        .tldr-card {
+            background: #fff;
+            border: 2px solid #1a1a1a;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 4px 4px 0px 0px #1a1a1a;
+        }
+        .tldr-card h3 {
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+            color: #6b6b6b;
+        }
+        .tldr-card .verdict {
+            font-size: 1.05rem;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+        .tldr-card.neon .verdict { color: #1a1a1a; }
+        .tldr-card.supabase .verdict { color: #1a1a1a; }
+        .tldr-card.ps .verdict { color: #1a1a1a; }
+
+        /* Section */
+        section.teardown {
+            padding: 64px 24px;
+            border-bottom: 2px solid #1a1a1a;
+        }
+        section.teardown.alt { background: #f5f5f5; }
+        .section-eyebrow {
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #6b6b6b;
+            margin-bottom: 12px;
+        }
+        .section-number {
+            display: inline-block;
+            padding: 4px 10px;
+            background: #1a1a1a;
+            color: #DFFE68;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 800;
+            margin-right: 8px;
+        }
+        section h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            margin-bottom: 12px;
+        }
+        @media (min-width: 768px) {
+            section h2 { font-size: 2.25rem; }
+        }
+        section .deck {
+            font-size: 1.1rem;
+            color: #4a4a4a;
+            margin-bottom: 36px;
+            max-width: 780px;
+        }
+
+        /* Evidence cards */
+        .evidence {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+        @media (min-width: 900px) {
+            .evidence { grid-template-columns: repeat(3, 1fr); }
+        }
+        .ev-card {
+            background: #fff;
+            border: 2px solid #1a1a1a;
+            border-radius: 12px;
+            padding: 22px;
+            box-shadow: 4px 4px 0px 0px #1a1a1a;
+            display: flex;
+            flex-direction: column;
+        }
+        .ev-card .brand {
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 14px;
+            display: inline-block;
+            padding: 4px 10px;
+            border: 2px solid #1a1a1a;
+            border-radius: 9999px;
+            align-self: flex-start;
+        }
+        .ev-card .brand.neon { background: #00E599; }
+        .ev-card .brand.supabase { background: #3ECF8E; }
+        .ev-card .brand.ps { background: #DFFE68; }
+        .ev-card .field-label {
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #6b6b6b;
+            margin-top: 12px;
+            margin-bottom: 4px;
+        }
+        .ev-card .field-label:first-of-type { margin-top: 0; }
+        .ev-card blockquote {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            line-height: 1.45;
+            padding-left: 12px;
+            border-left: 3px solid #1a1a1a;
+        }
+        .ev-card .cta-chip {
+            display: inline-block;
+            padding: 6px 12px;
+            background: #1a1a1a;
+            color: #fff;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border-radius: 6px;
+            margin-top: 6px;
+        }
+        .ev-card a.src {
+            font-size: 0.75rem;
+            color: #6b6b6b;
+            margin-top: 16px;
+            text-decoration: underline;
+            text-decoration-color: #d0d0d0;
+            text-underline-offset: 2px;
+            word-break: break-all;
+        }
+        .ev-card a.src:hover { color: #1a1a1a; }
+
+        /* Read */
+        .read {
+            background: #1a1a1a;
+            color: #fff;
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: 6px 6px 0px 0px #DFFE68;
+        }
+        .read .read-label {
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #DFFE68;
+            margin-bottom: 10px;
+        }
+        .read h3 {
+            font-size: 1.35rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+            line-height: 1.25;
+        }
+        .read p {
+            font-size: 1rem;
+            color: #e5e5e5;
+            line-height: 1.6;
+        }
+        .read p + p { margin-top: 12px; }
+
+        /* Category language table */
+        .owns-table {
+            background: #fff;
+            border: 2px solid #1a1a1a;
+            border-radius: 12px;
+            box-shadow: 4px 4px 0px 0px #1a1a1a;
+            overflow: hidden;
+        }
+        .owns-row {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            border-bottom: 2px solid #1a1a1a;
+        }
+        .owns-row:last-child { border-bottom: none; }
+        .owns-row .brand {
+            padding: 20px;
+            background: #f5f5f5;
+            border-right: 2px solid #1a1a1a;
+            font-weight: 800;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        .owns-row .content {
+            padding: 20px;
+        }
+        .owns-row .content .phrase {
+            font-family: 'Inter', monospace;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            display: inline-block;
+            padding: 2px 8px;
+            background: #DFFE68;
+            border: 2px solid #1a1a1a;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+        .owns-row .content .gloss {
+            font-size: 0.95rem;
+            color: #4a4a4a;
+        }
+        @media (max-width: 600px) {
+            .owns-row { grid-template-columns: 1fr; }
+            .owns-row .brand { border-right: none; border-bottom: 2px solid #1a1a1a; }
+        }
+
+        /* Closing */
+        .closing {
+            padding: 64px 24px 80px;
+            background: #DFFE68;
+        }
+        .closing-inner {
+            max-width: 920px;
+            margin: 0 auto;
+            background: #fff;
+            border: 2px solid #1a1a1a;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 6px 6px 0px 0px #1a1a1a;
+        }
+        .closing h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+        }
+        .closing p {
+            font-size: 1.05rem;
+            color: #4a4a4a;
+            margin-bottom: 14px;
+        }
+        .closing p:last-child { margin-bottom: 0; }
+        .closing .notes {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 2px dashed #1a1a1a;
+            font-size: 0.85rem;
+            color: #6b6b6b;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1a1a1a;
+            color: #9a9a9a;
+            padding: 32px 24px;
+            font-size: 0.85rem;
+        }
+        .footer-inner {
+            max-width: 920px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .footer a { color: #DFFE68; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="header-inner">
+        <span class="header-label">Postgres Positioning Teardown</span>
+        <span class="header-badge">Prepared for Sam Lambert</span>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="hero-inner">
+        <span class="eyebrow">Operator Teardown &middot; April 2026</span>
+        <h1>Three companies sell Postgres. None of them sell it to the same person.</h1>
+        <p class="lede">A line-by-line read of Neon, Supabase, and PlanetScale Postgres &mdash; homepage, pricing, docs, and the words each one owns in a buyer&rsquo;s head. All copy pulled directly from live pages. No recommendations, no prescriptions, no pitch. Just what&rsquo;s on the page right now.</p>
+    </div>
+</section>
+
+<section class="tldr">
+    <div class="tldr-inner">
+        <div class="section-eyebrow">Observation in one sentence per vendor</div>
+        <div class="tldr-grid">
+            <div class="tldr-card neon">
+                <h3>Neon</h3>
+                <p class="verdict">Assumes the reader doesn&rsquo;t care about Vitess or sharding history. Pitches Postgres as if Postgres is the whole conversation.</p>
+            </div>
+            <div class="tldr-card supabase">
+                <h3>Supabase</h3>
+                <p class="verdict">Assumes the reader doesn&rsquo;t care about Postgres itself. Postgres is an implementation detail inside a &ldquo;development platform.&rdquo;</p>
+            </div>
+            <div class="tldr-card ps">
+                <h3>PlanetScale Postgres</h3>
+                <p class="verdict">Assumes the reader already knows what PlanetScale is. The page reads like a product update to an existing customer, not a first meeting.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 1: HOMEPAGE FRAMING -->
+<section class="teardown" id="s1">
+    <div class="wrap">
+        <div class="section-eyebrow"><span class="section-number">01</span>Homepage framing</div>
+        <h2>Hero copy, verbatim. Three different buyers.</h2>
+        <p class="deck">What the above-the-fold hero of each site actually says, and what it assumes the reader already understands before they got here.</p>
+
+        <div class="evidence">
+            <div class="ev-card">
+                <span class="brand neon">Neon &middot; neon.com</span>
+                <div class="field-label">Tagline</div>
+                <blockquote>&ldquo;Neon Serverless Postgres &mdash; Ship faster&rdquo;</blockquote>
+                <div class="field-label">H1</div>
+                <blockquote>&ldquo;Fast Postgres Databases for Teams and Agents&rdquo;</blockquote>
+                <div class="field-label">Subhead</div>
+                <blockquote>&ldquo;Postgres for the AI Engineering era. Integrate with a single command and the LLM does the hard work.&rdquo;</blockquote>
+                <div class="field-label">Primary CTA</div>
+                <span class="cta-chip">Get started</span>
+                <a class="src" href="https://neon.com/" target="_blank" rel="noopener">neon.com</a>
+            </div>
+
+            <div class="ev-card">
+                <span class="brand supabase">Supabase &middot; supabase.com</span>
+                <div class="field-label">Promo bar</div>
+                <blockquote>&ldquo;State of Startups 2026: Take the survey.&rdquo;</blockquote>
+                <div class="field-label">H1</div>
+                <blockquote>&ldquo;Build in a weekend, Scale to millions&rdquo;</blockquote>
+                <div class="field-label">Subhead</div>
+                <blockquote>&ldquo;Supabase is the Postgres development platform. Start your project with a Postgres database, Authentication, instant APIs, Edge Functions, Realtime subscriptions, Storage, and Vector embeddings.&rdquo;</blockquote>
+                <div class="field-label">Primary CTA</div>
+                <span class="cta-chip">Start your project</span>
+                <a class="src" href="https://supabase.com/" target="_blank" rel="noopener">supabase.com</a>
+            </div>
+
+            <div class="ev-card">
+                <span class="brand ps">PlanetScale &middot; /postgres</span>
+                <div class="field-label">Tagline</div>
+                <blockquote>&ldquo;PlanetScale for Postgres&rdquo;</blockquote>
+                <div class="field-label">H1</div>
+                <blockquote>&ldquo;PlanetScale Postgres provides fully-managed, high availability PostgreSQL database clusters built on modern cloud infrastructure.&rdquo;</blockquote>
+                <div class="field-label">Subhead</div>
+                <blockquote>&ldquo;With PlanetScale Metal, you get blazing-fast Postgres, reliability, and the developer experience PlanetScale is known for, in both AWS and GCP. Single node starts at $5/month.&rdquo;</blockquote>
+                <div class="field-label">Primary CTA</div>
+                <span class="cta-chip">Get started with Postgres</span>
+                <a class="src" href="https://planetscale.com/postgres" target="_blank" rel="noopener">planetscale.com/postgres</a>
+            </div>
+        </div>
+
+        <div class="read">
+            <div class="read-label">The read</div>
+            <h3>Neon sells a product category. Supabase sells a workflow. PlanetScale sells a track record.</h3>
+            <p>Neon&rsquo;s hero is three words a Postgres buyer already uses: <em>fast</em>, <em>Postgres</em>, <em>serverless</em>. The subhead then adds one qualifier &mdash; &ldquo;AI Engineering era&rdquo; &mdash; and stops. A reader who has never heard of Neon can describe what Neon does after one sentence.</p>
+            <p>Supabase never asks the reader to care about Postgres on its own. The H1 is about outcome (&ldquo;Build in a weekend, Scale to millions&rdquo;). The word &ldquo;Postgres&rdquo; only appears in the subhead, in a six-item feature list, where it&rsquo;s first among equals with Auth, Storage, Edge Functions. Postgres is the engine, not the product.</p>
+            <p>PlanetScale&rsquo;s Postgres page opens with &ldquo;the developer experience PlanetScale is known for.&rdquo; A cold reader doesn&rsquo;t know what PlanetScale is known for. The sentence only works for someone who already lived through Vitess, sharding, and the migration from branches-for-MySQL. It reads as insider comms &mdash; a product launch to a list that already opted in.</p>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 2: PRICING -->
+<section class="teardown alt" id="s2">
+    <div class="wrap">
+        <div class="section-eyebrow"><span class="section-number">02</span>Paid landing / pricing</div>
+        <h2>How each page handles the Postgres buyer specifically.</h2>
+        <p class="deck">Pricing is where category assumptions show up most clearly &mdash; because every plan name, every column header, every SKU encodes what the vendor thinks the buyer came for.</p>
+
+        <div class="evidence">
+            <div class="ev-card">
+                <span class="brand neon">Neon &middot; /pricing</span>
+                <div class="field-label">Headline</div>
+                <blockquote>&ldquo;Neon Pricing Plans&rdquo;</blockquote>
+                <div class="field-label">Subhead</div>
+                <blockquote>&ldquo;Neon is a serverless Postgres platform with three plans: Free, Launch, and Scale.&rdquo;</blockquote>
+                <div class="field-label">Plan names</div>
+                <blockquote>Free &middot; Launch &middot; Scale</blockquote>
+                <div class="field-label">Buyer segmentation</div>
+                <blockquote>&ldquo;Prototypes, side projects, and small teams&rdquo; &rarr; &ldquo;Startups and growing teams&rdquo; &rarr; &ldquo;Production-grade workloads and larger companies&rdquo;</blockquote>
+                <a class="src" href="https://neon.com/pricing" target="_blank" rel="noopener">neon.com/pricing</a>
+            </div>
+
+            <div class="ev-card">
+                <span class="brand supabase">Supabase &middot; /pricing</span>
+                <div class="field-label">Page title</div>
+                <blockquote>&ldquo;Pricing &amp; Fees | Supabase&rdquo;</blockquote>
+                <div class="field-label">Structure</div>
+                <blockquote>Single unified plan ladder (Free &rarr; Pro &rarr; Team &rarr; Enterprise). No Postgres-specific SKU. Database, Auth, Storage, Realtime, Edge Functions all included in the same tier.</blockquote>
+                <div class="field-label">What the Postgres buyer sees</div>
+                <blockquote>No way to buy &ldquo;just Postgres.&rdquo; Postgres is metered inside the platform plan alongside Auth MAUs, Storage GB, Edge Function invocations. The pricing page treats the Postgres buyer as the platform buyer.</blockquote>
+                <a class="src" href="https://supabase.com/pricing" target="_blank" rel="noopener">supabase.com/pricing</a>
+            </div>
+
+            <div class="ev-card">
+                <span class="brand ps">PlanetScale &middot; /pricing</span>
+                <div class="field-label">Headline</div>
+                <blockquote>&ldquo;PlanetScale pricing&rdquo;</blockquote>
+                <div class="field-label">Structure</div>
+                <blockquote>Two explicitly separate SKU tables: <em>&ldquo;Postgres SKUs&rdquo;</em> (EBS HA 3-node, EBS non-HA single node, Metal 3-node) and <em>&ldquo;Vitess SKUs&rdquo;</em> (non-metal, metal).</blockquote>
+                <div class="field-label">What the Postgres buyer sees</div>
+                <blockquote>A table that assumes they already know what HA, non-HA, Metal, and a PS-10 x86-64 instance mean. No plan names like Free/Pro/Scale &mdash; just compute SKUs keyed on instance size.</blockquote>
+                <a class="src" href="https://planetscale.com/pricing" target="_blank" rel="noopener">planetscale.com/pricing</a>
+            </div>
+        </div>
+
+        <div class="read">
+            <div class="read-label">The read</div>
+            <h3>Neon sells plans. Supabase sells a platform. PlanetScale sells infrastructure.</h3>
+            <p>Neon&rsquo;s pricing page mentions Postgres in its first sentence, then abstracts away into compute / storage / branches &mdash; but the plan names (Free, Launch, Scale) map to team size, not technical depth. A non-expert can self-serve. A database engineer can also self-serve. Both buyers land on the same ladder.</p>
+            <p>Supabase&rsquo;s pricing simply doesn&rsquo;t have a lane for &ldquo;I only want the database.&rdquo; If you&rsquo;re on this page, you&rsquo;re buying the bundle. That&rsquo;s coherent with the homepage &mdash; but it means a Postgres-first buyer with an existing Auth and Storage stack has nowhere to land.</p>
+            <p>PlanetScale&rsquo;s pricing is the most technical of the three and the most legible to someone who already decided. The cost of that legibility: a cold Postgres buyer has to understand EBS vs Metal, HA vs non-HA, and PS-10 vs PS-20 <em>before</em> they can estimate their bill. Pricing pre-qualifies the reader instead of converting them.</p>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 3: DOCS -->
+<section class="teardown" id="s3">
+    <div class="wrap">
+        <div class="section-eyebrow"><span class="section-number">03</span>Dev doc entry point</div>
+        <h2>How fast a cold Postgres buyer gets to something useful.</h2>
+        <p class="deck">Docs are the second hero. For a technical buyer, the /docs landing is often where the real decision happens &mdash; because it&rsquo;s where they check whether the product survives contact with their stack.</p>
+
+        <div class="evidence">
+            <div class="ev-card">
+                <span class="brand neon">Neon &middot; /docs</span>
+                <div class="field-label">H1 / opening line</div>
+                <blockquote>&ldquo;Neon is serverless Postgres designed to help you build faster. Autoscaling, branching, instant restore, and more.&rdquo;</blockquote>
+                <div class="field-label">First things a new user sees</div>
+                <blockquote>&ldquo;Learn the basics&rdquo; &middot; &ldquo;Connect your stack&rdquo; &middot; &ldquo;Learn about branching&rdquo; &middot; &ldquo;Set up Neon Auth&rdquo;</blockquote>
+                <div class="field-label">Time to a connection string</div>
+                <blockquote>One command (<code>npx neonctl@latest init</code>) surfaced on the docs home itself. Framework quickstarts (Next.js, Django, Express) are linked from the first screen.</blockquote>
+                <a class="src" href="https://neon.com/docs" target="_blank" rel="noopener">neon.com/docs</a>
+            </div>
+
+            <div class="ev-card">
+                <span class="brand supabase">Supabase &middot; /docs</span>
+                <div class="field-label">H1</div>
+                <blockquote>&ldquo;Supabase Documentation&rdquo;</blockquote>
+                <div class="field-label">Subhead</div>
+                <blockquote>&ldquo;Learn how to get up and running with Supabase through tutorials, APIs and platform resources.&rdquo;</blockquote>
+                <div class="field-label">Top sections in order</div>
+                <blockquote>Getting Started &middot; Products &middot; Modules &middot; Client Libraries &middot; Migrate to Supabase</blockquote>
+                <div class="field-label">Products shown first</div>
+                <blockquote>Database &middot; Auth &middot; Storage &middot; Realtime &middot; Edge Functions. No dedicated Postgres-only lane; Postgres lives inside &ldquo;Database.&rdquo;</blockquote>
+                <a class="src" href="https://supabase.com/docs" target="_blank" rel="noopener">supabase.com/docs</a>
+            </div>
+
+            <div class="ev-card">
+                <span class="brand ps">PlanetScale &middot; /docs</span>
+                <div class="field-label">H1</div>
+                <blockquote>&ldquo;PlanetScale documentation&rdquo;</blockquote>
+                <div class="field-label">Opener</div>
+                <blockquote>&ldquo;PlanetScale is a relational database platform that brings you scale, performance, and reliability &mdash; without sacrificing developer experience.&rdquo;</blockquote>
+                <div class="field-label">First interaction</div>
+                <blockquote>Two cards: <em>Vitess documentation</em> and <em>Postgres documentation</em>. The reader is asked to pick a lane before they see a quickstart.</blockquote>
+                <div class="field-label">Time to a connection string</div>
+                <blockquote>Gated by one extra click and one extra decision &mdash; plus, further down, a &ldquo;PlanetScale plans&rdquo; section and deployment architecture detail before code.</blockquote>
+                <a class="src" href="https://planetscale.com/docs" target="_blank" rel="noopener">planetscale.com/docs</a>
+            </div>
+        </div>
+
+        <div class="read">
+            <div class="read-label">The read</div>
+            <h3>Neon treats the docs home like a landing page. The other two treat it like a table of contents.</h3>
+            <p>Neon&rsquo;s docs home repeats the category claim (&ldquo;serverless Postgres&rdquo;) and drops a copy-pasteable command on the same screen. A cold buyer lands on /docs and can be typing a real command in under thirty seconds. That&rsquo;s rare.</p>
+            <p>Supabase&rsquo;s docs home is genuinely a table of contents. That&rsquo;s consistent with a platform positioning &mdash; when you sell five products, the docs can&rsquo;t bias toward one &mdash; but it means a Postgres-only buyer has to self-route through &ldquo;Products &rarr; Database&rdquo; before anything feels specific to them.</p>
+            <p>PlanetScale&rsquo;s docs home asks the buyer to make the Vitess-or-Postgres choice up front. For an existing customer that&rsquo;s a feature. For a cold buyer who hasn&rsquo;t decided yet, it&rsquo;s a friction point that every comparison tab they left open doesn&rsquo;t have.</p>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 4: CATEGORY LANGUAGE -->
+<section class="teardown alt" id="s4">
+    <div class="wrap">
+        <div class="section-eyebrow"><span class="section-number">04</span>Category language</div>
+        <h2>Which words each company owns in the Postgres buyer&rsquo;s head.</h2>
+        <p class="deck">Not what they <em>say</em> they do. What phrase a buyer would actually use to describe them to a colleague twelve hours after leaving the site.</p>
+
+        <div class="owns-table">
+            <div class="owns-row">
+                <div class="brand">Neon</div>
+                <div class="content">
+                    <span class="phrase">Serverless Postgres</span>
+                    <div class="gloss">Two words, on every surface &mdash; hero tagline, pricing subhead, docs H1. Category-defining positioning. A buyer who left five minutes ago still remembers &ldquo;serverless Postgres.&rdquo; That&rsquo;s the whole product in two words.</div>
+                </div>
+            </div>
+            <div class="owns-row">
+                <div class="brand">Supabase</div>
+                <div class="content">
+                    <span class="phrase">The Postgres development platform</span>
+                    <div class="gloss">Emphasis on <em>platform</em>, not Postgres. Supabase has spent years successfully owning the &ldquo;open-source Firebase alternative&rdquo; phrase externally, and the homepage subhead now reinforces the platform framing with a six-item feature list. Postgres is inside the brand, not the brand itself.</div>
+                </div>
+            </div>
+            <div class="owns-row">
+                <div class="brand">PlanetScale</div>
+                <div class="content">
+                    <span class="phrase">The world&rsquo;s fastest and most scalable cloud databases</span>
+                    <div class="gloss">The main homepage frames the category as <em>speed + scale</em> across &ldquo;both our Postgres and Vitess databases.&rdquo; The /postgres page narrows to &ldquo;PlanetScale Postgres&rdquo; and &ldquo;PlanetScale Metal.&rdquo; The buyer leaves remembering &ldquo;fast&rdquo; and &ldquo;Metal&rdquo; &mdash; strong primitives, but not a category phrase a new buyer would reach for when searching.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="read" style="margin-top: 32px;">
+            <div class="read-label">The read</div>
+            <h3>One vendor owns a category phrase. One owns a platform promise. One owns a performance claim.</h3>
+            <p>&ldquo;Serverless Postgres&rdquo; is a search term. &ldquo;Postgres development platform&rdquo; is a pitch. &ldquo;Fastest and most scalable&rdquo; is a benchmark claim. Each of those is legitimate &mdash; but they don&rsquo;t compete for the same mental shelf.</p>
+            <p>A buyer typing &ldquo;serverless Postgres&rdquo; into a search bar has already pre-qualified themselves for Neon. A buyer typing &ldquo;Firebase alternative&rdquo; has already pre-qualified for Supabase. PlanetScale&rsquo;s current Postgres framing doesn&rsquo;t yet have an equivalent short phrase that pulls buyers toward it from the search bar &mdash; it relies on the buyer already having the brand loaded.</p>
+        </div>
+    </div>
+</section>
+
+<!-- CLOSING / METHOD -->
+<section class="closing">
+    <div class="closing-inner">
+        <h2>Method &amp; sources</h2>
+        <p>All copy on this page was pulled directly from live pages on neon.com, supabase.com, and planetscale.com during April 2026. Direct quotes are in quotation marks. No paraphrasing inside quoted copy. No AI rewriting of vendor language.</p>
+        <p>Where a page is JavaScript-rendered and specific SKU prices couldn&rsquo;t be cleanly extracted (notably the Supabase pricing grid), the page is described structurally rather than quoted with specific dollar figures. Cited positioning (&ldquo;the Postgres development platform,&rdquo; product bundle list) is from the Supabase homepage subhead, which is static.</p>
+        <div class="notes">
+            <strong>Sources (live URLs):</strong><br>
+            neon.com &middot; neon.com/pricing &middot; neon.com/docs<br>
+            supabase.com &middot; supabase.com/pricing &middot; supabase.com/docs<br>
+            planetscale.com &middot; planetscale.com/postgres &middot; planetscale.com/pricing &middot; planetscale.com/docs
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="footer-inner">
+        <span>Postgres Positioning Teardown &middot; Prepared April 2026</span>
+        <span>Observation only. No vendor affiliation.</span>
+    </div>
+</footer>
+
+</body>
+</html>
