@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex,nofollow" />
+<title>For Resonant Link Medical — 42 Agency</title>
+
+<link rel="preconnect" href="https://cdn.prod.website-files.com" crossorigin />
+<link rel="preload" as="font" type="font/woff2" crossorigin
+  href="https://cdn.prod.website-files.com/6356a48dff70251d68facdf8/6356b981583d410c7992d51e_PPNeueMontreal-Regular.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin
+  href="https://cdn.prod.website-files.com/6356a48dff70251d68facdf8/6356b9816ed7636608a7cb25_PPNeueMontreal-Medium.woff2" />
+
+<style>
+  /* ==== Fonts pulled from rlmedical.com (verified via Playwright) ==== */
+  @font-face {
+    font-family: 'PPNeueMontreal';
+    src: url('https://cdn.prod.website-files.com/6356a48dff70251d68facdf8/6356b981583d410c7992d51e_PPNeueMontreal-Regular.woff2') format('woff2');
+    font-weight: 400; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'PPNeueMontreal';
+    src: url('https://cdn.prod.website-files.com/6356a48dff70251d68facdf8/6356b9816ed7636608a7cb25_PPNeueMontreal-Medium.woff2') format('woff2');
+    font-weight: 500; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'PPNeueMontreal';
+    src: url('https://cdn.prod.website-files.com/6356a48dff70251d68facdf8/6356b981e3a3e65b27abcdce_PPNeueMontreal-Semibold.woff2') format('woff2');
+    font-weight: 600; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'DMMono';
+    src: url('https://cdn.prod.website-files.com/6356a48dff70251d68facdf8/6356ba96a037156eabad5d13_DMMono-Regular.woff2') format('woff2');
+    font-weight: 400; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'DMMono';
+    src: url('https://cdn.prod.website-files.com/6356a48dff70251d68facdf8/6356ba961271192eb1291166_DMMono-Medium.woff2') format('woff2');
+    font-weight: 500; font-style: normal; font-display: swap;
+  }
+
+  /* ==== Tokens lifted from --css-variables on rlmedical.com ==== */
+  :root {
+    --carbon:    #141519;
+    --grey-600:  #212226;
+    --grey-500:  #292a2e;
+    --grey-400:  #333438;
+    --grey-300:  #5d6069;
+    --grey-200:  #7b7f8a;
+    --grey-100:  #e7e8e9;
+    --cloud:     #FAFBFF;
+    --white:     #FFFFFF;
+    --medical:   #47CEFF;
+    --hairline:  rgba(255,255,255,0.10);
+    --hairline-dark: rgba(20,21,25,0.10);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  body {
+    font-family: 'PPNeueMontreal', sans-serif;
+    font-weight: 400;
+    color: var(--carbon);
+    background: var(--white);
+    line-height: 1.45;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* ==== Type system mirrored from c-display / t-label scales ==== */
+  .t-eyebrow {
+    font-family: 'DMMono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--medical);
+  }
+  .t-display {
+    font-family: 'PPNeueMontreal', sans-serif;
+    font-weight: 400;
+    font-size: clamp(40px, 6vw, 80px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+  }
+  .t-display-sm {
+    font-family: 'PPNeueMontreal', sans-serif;
+    font-weight: 400;
+    font-size: clamp(28px, 3.6vw, 48px);
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+  }
+  .t-lead {
+    font-size: clamp(17px, 1.4vw, 22px);
+    font-weight: 400;
+    line-height: 1.45;
+    color: var(--grey-200);
+    max-width: 56ch;
+  }
+  .t-body {
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.55;
+  }
+  .t-mono {
+    font-family: 'DMMono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ==== Layout ==== */
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+  @media (max-width: 720px) { .container { padding: 0 20px; } }
+
+  /* ==== Header (replicates c-header pattern) ==== */
+  .header {
+    position: absolute; inset: 0 0 auto 0; z-index: 10;
+    padding: 24px 0;
+  }
+  .header-inner {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo-link { display: inline-flex; align-items: center; color: var(--white); }
+  .logo-link svg { display: block; height: 28px; width: auto; }
+  .header-meta {
+    display: flex; align-items: center; gap: 24px;
+    color: var(--white);
+  }
+  .header-meta .t-mono { color: rgba(255,255,255,0.6); }
+
+  /* ==== Hero ==== */
+  .hero {
+    position: relative;
+    background: var(--carbon);
+    color: var(--white);
+    overflow: hidden;
+    min-height: 92vh;
+    display: flex; align-items: flex-end;
+    padding: 160px 0 80px;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 70% 30%, rgba(71,206,255,0.18), transparent 55%),
+      radial-gradient(ellipse at 20% 80%, rgba(71,206,255,0.08), transparent 60%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: 0;
+    height: 1px; background: var(--hairline);
+  }
+  .hero-grid { position: relative; }
+  .hero h1 { color: var(--white); margin-top: 28px; max-width: 18ch; }
+  .hero .t-lead { color: rgba(255,255,255,0.72); margin-top: 28px; }
+
+  .hero-meta {
+    display: flex; gap: 48px; flex-wrap: wrap;
+    margin-top: 56px;
+    padding-top: 28px;
+    border-top: 1px solid var(--hairline);
+  }
+  .hero-meta-item .t-mono { color: var(--medical); }
+  .hero-meta-item .label { color: rgba(255,255,255,0.55); display: block; margin-bottom: 6px; }
+
+  /* ==== Buttons (c-btn is-main pattern) ==== */
+  .btn {
+    display: inline-flex; align-items: center; gap: 12px;
+    padding: 14px 22px;
+    font-family: 'PPNeueMontreal', sans-serif;
+    font-weight: 500; font-size: 15px;
+    border: 1px solid var(--white);
+    border-radius: 999px;
+    color: var(--white);
+    background: transparent;
+    transition: background .18s ease, color .18s ease, transform .18s ease;
+  }
+  .btn:hover { background: var(--white); color: var(--carbon); }
+  .btn .arrow {
+    width: 16px; height: 16px;
+    transition: transform .18s ease;
+  }
+  .btn:hover .arrow { transform: translateX(3px); }
+  .btn.is-dark { border-color: var(--carbon); color: var(--carbon); }
+  .btn.is-dark:hover { background: var(--carbon); color: var(--white); }
+  .btn.is-accent {
+    background: var(--medical); border-color: var(--medical); color: var(--carbon);
+  }
+  .btn.is-accent:hover { background: var(--white); border-color: var(--white); }
+
+  .hero-cta { margin-top: 48px; display: flex; gap: 16px; flex-wrap: wrap; }
+
+  /* ==== Sections ==== */
+  section { padding: 120px 0; }
+  @media (max-width: 720px) { section { padding: 80px 0; } }
+
+  .s-light { background: var(--cloud); }
+  .s-dark { background: var(--carbon); color: var(--white); }
+  .s-dark .t-lead { color: rgba(255,255,255,0.72); }
+
+  .section-head {
+    display: grid; grid-template-columns: 1fr; gap: 24px;
+    margin-bottom: 64px;
+    max-width: 760px;
+  }
+  .section-head h2 { letter-spacing: -0.015em; }
+
+  /* ==== Pillar grid ==== */
+  .pillars {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+    background: var(--grey-100);
+    border: 1px solid var(--grey-100);
+  }
+  @media (max-width: 900px) { .pillars { grid-template-columns: 1fr; } }
+  .pillar {
+    background: var(--white);
+    padding: 40px 32px;
+    display: flex; flex-direction: column; gap: 20px;
+    min-height: 280px;
+  }
+  .pillar .num {
+    font-family: 'DMMono', monospace;
+    font-size: 12px; color: var(--medical);
+    letter-spacing: 0.12em;
+  }
+  .pillar h3 {
+    font-weight: 400; font-size: 24px; line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: var(--carbon);
+  }
+  .pillar p { color: var(--grey-300); font-size: 16px; line-height: 1.55; }
+
+  /* ==== Stats strip ==== */
+  .stats {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+  }
+  @media (max-width: 720px) { .stats { grid-template-columns: 1fr; } }
+  .stat {
+    padding: 48px 24px;
+    border-right: 1px solid var(--hairline);
+  }
+  .stat:last-child { border-right: 0; }
+  @media (max-width: 720px) {
+    .stat { border-right: 0; border-bottom: 1px solid var(--hairline); }
+    .stat:last-child { border-bottom: 0; }
+  }
+  .stat .num {
+    font-size: clamp(48px, 5vw, 72px); font-weight: 400;
+    line-height: 1; letter-spacing: -0.02em;
+    color: var(--white);
+  }
+  .stat .num em {
+    font-style: normal; color: var(--medical);
+  }
+  .stat .label {
+    margin-top: 16px;
+    color: rgba(255,255,255,0.6);
+    font-size: 14px; line-height: 1.4;
+    max-width: 28ch;
+  }
+
+  /* ==== CTA block ==== */
+  .cta-row {
+    display: grid; grid-template-columns: 1fr auto; align-items: end;
+    gap: 48px;
+  }
+  @media (max-width: 900px) { .cta-row { grid-template-columns: 1fr; } }
+
+  /* ==== Footer ==== */
+  footer {
+    background: var(--carbon); color: var(--white);
+    padding: 48px 0;
+    border-top: 1px solid var(--hairline);
+  }
+  .footer-inner {
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 24px;
+    align-items: center;
+  }
+  .footer-inner .t-mono { color: rgba(255,255,255,0.5); }
+
+  /* ==== Sample-banner ==== */
+  .sample-banner {
+    background: var(--medical);
+    color: var(--carbon);
+    text-align: center;
+    padding: 10px 16px;
+    font-family: 'DMMono', monospace;
+    font-size: 12px; letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<div class="sample-banner">Sample landing page · brand pulled from rlmedical.com</div>
+
+<header class="header">
+  <div class="container header-inner">
+    <a class="logo-link" href="#" aria-label="Resonant Link Medical">
+      <!-- Wordmark + symbol lifted verbatim from rlmedical.com (currentColor) -->
+      <svg viewBox="0 0 138 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path fill="currentColor" d="M46.124 14.58V4.214h4.32c2.289 0 3.523 1.072 3.523 2.987 0 1.319-.8 2.276-1.942 2.54v.03c2.407.448 1.52 4.538 2.087 4.71v.1h-1.71c-.465-.434.523-4.059-2.016-4.059h-2.667v4.06h-1.595v-.004Zm3.972-5.44c1.463 0 2.262-.636 2.262-1.827 0-1.116-.637-1.726-2.232-1.726H47.72v3.55h2.377v.004Z"/>
+        <path fill="currentColor" d="M62.26 11.258h-5.684c.03 1.231.755 2.377 2.219 2.377 1.304 0 1.814-.84 1.942-1.335h1.45c-.392 1.42-1.48 2.492-3.423 2.492-2.35 0-3.655-1.666-3.655-3.928 0-2.263 1.393-3.915 3.655-3.915 2.263 0 3.51 1.48 3.51 3.77 0 .202 0 .421-.013.536v.003Zm-1.466-1.116c0-1.16-.813-2.03-2.073-2.03-1.19 0-2.06.813-2.145 2.03h4.218Z"/>
+        <path fill="currentColor" d="M63.232 12.114h1.437c.057.856.58 1.52 1.955 1.52 1.248 0 1.582-.549 1.582-1.085 0-.927-.985-1.028-1.942-1.23-1.292-.304-2.769-.682-2.769-2.22 0-1.274 1.029-2.13 2.812-2.13 2.03 0 3.001 1.085 3.102 2.363h-1.436c-.101-.566-.404-1.217-1.639-1.217-.957 0-1.362.378-1.362.927 0 .77.826.84 1.872 1.073 1.362.32 2.842.711 2.842 2.363 0 1.437-1.103 2.306-3.045 2.306-2.249 0-3.365-1.16-3.405-2.667l-.004-.003Z"/>
+        <path fill="currentColor" d="M70.653 10.881c0-2.306 1.393-3.928 3.713-3.928 2.32 0 3.681 1.608 3.681 3.915 0 2.306-1.392 3.928-3.695 3.928s-3.695-1.595-3.695-3.915h-.004Zm5.918 0c0-1.55-.695-2.741-2.205-2.741-1.51 0-2.233 1.19-2.233 2.741 0 1.551.695 2.741 2.233 2.741 1.537 0 2.205-1.203 2.205-2.74Z"/>
+        <path fill="currentColor" d="M85.85 9.446v5.132h-1.42v-4.74c0-.985-.435-1.653-1.507-1.653-1.217 0-2 .739-2 1.855v4.538h-1.42V7.184h1.42v.927h.03c.392-.566 1.16-1.146 2.435-1.146 1.362 0 2.465.782 2.465 2.478l-.003.003Z"/>
+        <path fill="currentColor" d="M87.256 12.665c0-1.652 1.247-2.145 3.088-2.492 1.16-.219 1.872-.364 1.872-1.089 0-.536-.32-.984-1.406-.984-1.292 0-1.683.407-1.754 1.392h-1.45c.071-1.42 1.002-2.539 3.261-2.539 1.52 0 2.741.637 2.741 2.553v3.392c0 .536.071.812.347.812.044 0 .088 0 .176-.013v.87a3.225 3.225 0 0 1-.725.087c-.712 0-1.086-.276-1.174-1.116h-.03c-.479.769-1.318 1.248-2.522 1.248-1.48 0-2.42-.857-2.42-2.118l-.004-.003Zm4.956-.971v-1.059c-.232.216-.87.378-1.625.536-1.305.26-1.854.624-1.854 1.393 0 .694.377 1.072 1.26 1.072 1.275 0 2.22-.65 2.22-1.942Z"/>
+        <path fill="currentColor" d="M101.926 9.446v5.132h-1.42v-4.74c0-.985-.435-1.653-1.507-1.653-1.217 0-2 .739-2 1.855v4.538H95.58V7.184H97v.927h.03c.391-.566 1.16-1.146 2.434-1.146 1.362 0 2.465.782 2.465 2.478l-.003.003Z"/>
+        <path fill="currentColor" d="M106.974 13.434v1.146a4.187 4.187 0 0 1-.9.088c-1.217 0-1.956-.465-1.956-2.175v-4.13h-1.072V7.19h1.072V4.812h1.42V7.19h1.419v1.173h-1.419v4.174c0 .782.215.958.826.958.246 0 .36-.014.61-.058v-.003Z"/>
+        <path fill="currentColor" d="M111.903 14.58V4.214h1.595v8.989h5.25v1.375h-6.845Z"/>
+        <path fill="currentColor" d="M119.921 5.862V4.324h1.608v1.538h-1.608Zm.084 8.716V7.183h1.42v7.395h-1.42Z"/>
+        <path fill="currentColor" d="M129.618 9.446v5.132h-1.419v-4.74c0-.985-.435-1.653-1.508-1.653-1.217 0-1.999.739-1.999 1.855v4.538h-1.42V7.184h1.42v.927h.03c.391-.566 1.16-1.146 2.435-1.146 1.362 0 2.464.782 2.464 2.478l-.003.003Z"/>
+        <path fill="currentColor" d="m136.318 14.58-2.421-3.784-1.072 1.029v2.755h-1.42V4.214h1.42v6.103l3.233-3.133h1.639l-2.842 2.711L138 14.58h-1.682Z"/>
+        <path fill="currentColor" d="M46.124 28.064V17.699h2.104l2.987 8.15h.03l3.002-8.15h2.1v10.365h-1.564v-8.045h-.03l-2.857 8.045h-1.318l-2.856-8.045h-.03v8.045h-1.568Z"/>
+        <path fill="currentColor" d="M65.016 24.747H59.33c.03 1.23.755 2.377 2.219 2.377 1.304 0 1.814-.84 1.942-1.336h1.45c-.392 1.42-1.48 2.492-3.423 2.492-2.35 0-3.655-1.666-3.655-3.928s1.393-3.915 3.655-3.915c2.263 0 3.51 1.48 3.51 3.77 0 .202 0 .422-.013.536v.004Zm-1.467-1.116c0-1.16-.813-2.03-2.074-2.03-1.19 0-2.06.812-2.144 2.03h4.218Z"/>
+        <path fill="currentColor" d="M71.725 17.699h1.42v10.364h-1.42v-.87h-.03c-.405.523-1.116 1.073-2.276 1.073-1.885 0-3.321-1.464-3.321-3.901 0-2.438 1.436-3.915 3.32-3.915 1.16 0 1.872.536 2.277 1.116h.03v-3.87.003Zm-.013 6.669c0-1.682-.783-2.724-2.06-2.724-1.393 0-2.074 1.278-2.074 2.724 0 1.446.68 2.724 2.073 2.724 1.275 0 2.06-1.058 2.06-2.724Z"/>
+        <path fill="currentColor" d="M74.901 19.35v-1.538h1.609v1.538H74.9Zm.088 8.716v-7.394h1.42v7.394h-1.42Z"/>
+        <path fill="currentColor" d="M77.858 24.368c0-2.32 1.437-3.915 3.625-3.915 1.898 0 3.16 1.23 3.335 2.9h-1.464c-.07-.769-.505-1.727-1.854-1.727-1.582 0-2.161 1.35-2.161 2.742s.58 2.724 2.16 2.724c1.363 0 1.785-.927 1.855-1.77h1.464c-.102 1.696-1.42 2.957-3.322 2.957-2.205 0-3.638-1.595-3.638-3.915v.004Z"/>
+        <path fill="currentColor" d="M85.82 26.153c0-1.652 1.247-2.144 3.088-2.492 1.16-.219 1.871-.364 1.871-1.089 0-.536-.32-.984-1.406-.984-1.291 0-1.682.408-1.753 1.392h-1.45c.07-1.42 1.001-2.539 3.26-2.539 1.521 0 2.742.638 2.742 2.553v3.392c0 .536.07.812.347.812.044 0 .088 0 .175-.013v.87a3.225 3.225 0 0 1-.725.087c-.711 0-1.085-.276-1.173-1.116h-.03c-.48.77-1.319 1.248-2.522 1.248-1.48 0-2.421-.857-2.421-2.117l-.004-.004Zm4.96-.97v-1.06c-.234.216-.87.378-1.626.536-1.305.26-1.855.624-1.855 1.393 0 .695.378 1.072 1.261 1.072 1.275 0 2.22-.65 2.22-1.942Z"/>
+        <path fill="currentColor" d="M94.14 28.064V17.699h1.42v10.365h-1.42Z"/>
+        <path fill="currentColor" d="M30.1.04c-.849-.219-1.763.476-2.04 1.551-.276 1.076.193 2.121 1.043 2.34.85.22 1.763-.475 2.04-1.55C31.419 1.304 30.95.26 30.1.04Z"/>
+        <path fill="currentColor" d="M32.293 8.255C29.515 4.627 24.74 3.05 19.518 4.041a.154.154 0 0 0-.125.172c.01.087.09.135.165.138 3.969-.263 7.34 1.423 8.807 4.39.883 1.787.947 3.962.179 6.123-1.157 3.254-4.04 6.136-7.91 7.91a.154.154 0 0 0-.085.185.159.159 0 0 0 .172.112c2.34-.334 7.02-1.8 9.883-5.196-.068 3.813-1.841 8.143-3.102 10.027a.157.157 0 0 0 .017.196c.03.03.07.047.11.047.031 0 .058-.01.085-.023.047-.03.098-.064.145-.098l.074-.05c3.24-2.577 5.48-6.033 6.306-9.732.829-3.715.138-7.259-1.95-9.983l.004-.004Z"/>
+        <path fill="currentColor" d="M22.845 1.727c-5.657-.431-10.725.756-14.93 3.379C4.018 7.536 1.357 10.989.43 14.82c-1.281 5.293.33 10.216 4.424 13.5 2.994 2.408 6.838 3.631 10.89 3.631 3.177 0 6.484-.751 9.61-2.279a.169.169 0 1 0-.148-.303c-6.993 3.415-14.9 2.9-20.14-1.312C1.081 24.854-.487 20.06.761 14.897c.907-3.746 3.51-7.12 7.333-9.508a21.783 21.783 0 0 1 4.68-2.178C7.282 5.325 3.583 9.347 2.362 13.468c-1.895 6.4.924 12.266 7.182 14.953 2.05.88 4.312 1.319 6.605 1.319a18.08 18.08 0 0 0 7.377-1.572c.085-.037.122-.138.085-.222-.037-.084-.139-.125-.223-.084-4.373 1.965-9.501 2.056-13.71.253C3.59 25.5.846 19.79 2.687 13.564c1.28-4.328 5.37-8.541 11.436-10.46a19.705 19.705 0 0 0-3.46 1.696c-3.027 1.875-5.347 4.542-6.369 7.32-2.471 6.73 1.012 11.531 5.095 13.777 2.087 1.146 4.575 1.733 7.05 1.733 1.817 0 3.625-.317 5.26-.961a.168.168 0 0 0 .094-.22.168.168 0 0 0-.219-.093c-3.77 1.483-8.486 1.19-12.023-.756-3.962-2.178-7.34-6.834-4.943-13.365C6.162 8 9.925 5.076 14.234 3.478c-.769.34-1.51.729-2.222 1.164-2.613 1.604-4.724 3.837-5.79 6.123-2.666 5.725-.195 10.263 3.005 12.596 2.016 1.474 4.75 2.28 7.36 2.28a11.11 11.11 0 0 0 3.274-.472.17.17 0 0 0 .112-.213.17.17 0 0 0-.213-.111c-3.216 1.005-7.563.266-10.334-1.757-3.092-2.255-5.48-6.642-2.896-12.182 1.369-2.943 4.619-6.035 9.241-7.67-3.681 1.537-6.27 3.992-7.61 6.173-2.903 4.73-1.436 9 .908 11.417 1.972 2.036 5.067 2.964 7.529 2.964.505 0 .984-.04 1.422-.115a.173.173 0 0 0 .139-.196.17.17 0 0 0-.196-.138c-2.127.371-6.214-.232-8.652-2.751-1.972-2.043-3.092-5.158-1.74-8.92 1.448-4.029 5.798-8.087 13.3-9.011a.169.169 0 1 0-.041-.337l.004-.003Z"/>
+      </svg>
+    </a>
+    <div class="header-meta">
+      <span class="t-mono">For Resonant Link Medical</span>
+      <a class="btn" href="https://www.42agency.com/contact-us">
+        Contact
+        <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 8h12M9 3l5 5-5 5"/></svg>
+      </a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="t-eyebrow">42 Agency × Resonant Link Medical</div>
+    <h1 class="t-display">Wireless power is the easy part. Getting the implant industry to believe it is the work.</h1>
+    <p class="t-lead">Aurion WPT&trade; charges 10× faster over double the range. The harder problem is convincing 50+ device categories of OEMs that the constraint they have lived with for 30 years is no longer a constraint.</p>
+
+    <div class="hero-cta">
+      <a class="btn is-accent" href="#how">
+        See the demand-gen plan
+        <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 8h12M9 3l5 5-5 5"/></svg>
+      </a>
+      <a class="btn" href="https://www.42agency.com/contact-us">Book a 30-min walkthrough</a>
+    </div>
+
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <span class="label t-mono">Built for</span>
+        <span class="t-mono">Implantable medical OEMs · Class III · &gt;5yr design cycles</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="label t-mono">42 Agency</span>
+        <span class="t-mono">Demand engineering for technical B2B</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="s-light" id="how">
+  <div class="container">
+    <div class="section-head">
+      <div class="t-eyebrow" style="color: var(--carbon);">The work</div>
+      <h2 class="t-display-sm">Three things every category-defining medical platform has to solve before revenue compounds.</h2>
+      <p class="t-lead" style="color: var(--grey-300);">Aurion WPT&trade; is not a feature inside an existing buyer&rsquo;s checklist. It is a new line item engineers have to add. Marketing has to do the work of putting it there.</p>
+    </div>
+
+    <div class="pillars">
+      <div class="pillar">
+        <span class="num">01 / Category</span>
+        <h3>Name the constraint Aurion removes, not the spec it replaces.</h3>
+        <p>Engineers do not search for &ldquo;wireless power transfer.&rdquo; They search for &ldquo;reduce battery footprint,&rdquo; &ldquo;eliminate transcutaneous lead,&rdquo; &ldquo;extend implant life.&rdquo; The category page has to win those queries first.</p>
+      </div>
+      <div class="pillar">
+        <span class="num">02 / Pipeline</span>
+        <h3>Reach 50+ device-type buyer committees with one engine, not 50 campaigns.</h3>
+        <p>Neuromod, cardiac, drug delivery, sensing — each has its own clinical pressure and procurement gate. A signal-driven account model lets one team work all of them without 50× the headcount.</p>
+      </div>
+      <div class="pillar">
+        <span class="num">03 / Proof</span>
+        <h3>Turn the 50 devices already designed with Aurion into a public moat.</h3>
+        <p>Each integration is a peer-reviewable proof point. We package them as case studies, conference assets, and OEM-specific landing pages so the next prospect arrives already half-convinced.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="s-dark">
+  <div class="container">
+    <div class="section-head">
+      <div class="t-eyebrow">What changes</div>
+      <h2 class="t-display-sm" style="color: var(--white);">A measurable demand engine for a long-cycle category.</h2>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="num"><em>3×</em></div>
+        <div class="label">Qualified pipeline from named medical OEM accounts within 12 months. Benchmarked against 42 Agency clients in adjacent technical categories.</div>
+      </div>
+      <div class="stat">
+        <div class="num">&lt;90<span style="color: var(--medical);">d</span></div>
+        <div class="label">From kickoff to first attributed deal cycle. Standard 42 Agency onboarding cadence for ICP-defined accounts.</div>
+      </div>
+      <div class="stat">
+        <div class="num">1<span style="color: var(--medical);">×</span></div>
+        <div class="label">Single team, single engine. We replace fragmented agency, freelancer, and MQL spend with one accountable function.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="s-light">
+  <div class="container">
+    <div class="cta-row">
+      <div>
+        <div class="t-eyebrow" style="color: var(--carbon);">Next step</div>
+        <h2 class="t-display-sm" style="margin-top: 16px; max-width: 18ch;">A 30-minute walkthrough on how the engine would map to Aurion&rsquo;s 50 device categories.</h2>
+        <p class="t-lead" style="color: var(--grey-300); margin-top: 24px;">No deck. Just a working session on which device verticals are warmest, which are blocked by category awareness, and where the first sequenced campaign would land.</p>
+      </div>
+      <a class="btn is-dark" href="https://www.42agency.com/contact-us">
+        Book the walkthrough
+        <svg class="arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 8h12M9 3l5 5-5 5"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-inner">
+    <div class="t-mono">42 Agency · Demand engineering for technical B2B</div>
+    <div class="t-mono">Sample · prepared for Resonant Link Medical · 2026</div>
+  </div>
+</footer>
+
+</body>
+</html>
